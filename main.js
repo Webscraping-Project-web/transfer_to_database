@@ -1,20 +1,22 @@
 const Airtable = require('airtable');
 
+// API keys and Base IDs
+const AIRTABLE_API_KEY_1 = 'patF55CtWdPT4xLGM.cc78d8b02df5e87cf80307e305118bb1ce94b36da8a699fbb0452849ea4cd503';
+const BASE_ID_1 = 'appls71BBO4hL6cBx';
 
+const AIRTABLE_API_KEY_2 = 'patMWzgz69bGhSecM.2c531bfa85230ce43b33fc2bcfc9d1bd3ac90c3139594ba338574a00f3b4f09d';
+const BASE_ID_2 = 'appYqSx4l5TlghInj';
 
-AIRTABLE_API_KEY='patF55CtWdPT4xLGM.cc78d8b02df5e87cf80307e305118bb1ce94b36da8a699fbb0452849ea4cd503'
-BASE_ID='appls71BBO4hL6cBx'
-
-
-// Setup Airtable base
-const base = new Airtable({ apiKey: AIRTABLE_API_KEY }).base(BASE_ID);
+// Setup Airtable bases
+const dataBase = new Airtable({ apiKey: AIRTABLE_API_KEY_1 }).base(BASE_ID_1);
+const companiesLeadsBase = new Airtable({ apiKey: AIRTABLE_API_KEY_2 }).base(BASE_ID_2);
 
 // Define table names
 const companiesTableName = 'Companies';
 const leadsTableName = 'Leads';
 const dataTableName = 'Data';
 
-async function fetchTableRecords(tableName) {
+async function fetchTableRecords(base, tableName) {
     const records = [];
     await base(tableName).select().eachPage((pageRecords, fetchNextPage) => {
         records.push(...pageRecords);
@@ -35,7 +37,7 @@ async function insertNewLead(companyName, address, contact) {
     await new Promise(resolve => setTimeout(resolve, 100));
 
     try {
-        await base(leadsTableName).create([
+        await companiesLeadsBase(leadsTableName).create([
             {
                 fields: {
                     'Name': companyName || '',
@@ -52,9 +54,9 @@ async function insertNewLead(companyName, address, contact) {
 
 async function run() {
     try {
-        // Fetch all records from the Companies and Leads tables
-        const companiesRecords = await fetchTableRecords(companiesTableName);
-        const leadsRecords = await fetchTableRecords(leadsTableName);
+        // Fetch all records from the Companies and Leads tables in the second base
+        const companiesRecords = await fetchTableRecords(companiesLeadsBase, companiesTableName);
+        const leadsRecords = await fetchTableRecords(companiesLeadsBase, leadsTableName);
 
         // Combine companies and leads names
         const allExistingCompanies = [
@@ -64,8 +66,8 @@ async function run() {
             ])
         ];
 
-        // Fetch all records from the Data table
-        const dataRecords = await fetchTableRecords(dataTableName);
+        // Fetch all records from the Data table in the first base
+        const dataRecords = await fetchTableRecords(dataBase, dataTableName);
         const csvData = dataRecords.map(record => ({
             "Name": record.get('Name'),
             "Address": record.get('Address'),
