@@ -1,11 +1,16 @@
 const Airtable = require('airtable');
 
 // API keys and Base IDs
-const AIRTABLE_API_KEY_1 = 'patF55CtWdPT4xLGM.cc78d8b02df5e87cf80307e305118bb1ce94b36da8a699fbb0452849ea4cd503';
+const AIRTABLE_API_KEY_1 = 'patMPLSJ1NXS9skXe.72c023ccf1da6a5a6d7e10e85dc38910c23bf23709aa09746794df625cb10952';
 const BASE_ID_1 = 'appls71BBO4hL6cBx';
 
-const AIRTABLE_API_KEY_2 = 'patMWzgz69bGhSecM.2c531bfa85230ce43b33fc2bcfc9d1bd3ac90c3139594ba338574a00f3b4f09d';
-const BASE_ID_2 = 'appYqSx4l5TlghInj';
+
+
+// const AIRTABLE_API_KEY_2 = 'patMWzgz69bGhSecM.2c531bfa85230ce43b33fc2bcfc9d1bd3ac90c3139594ba338574a00f3b4f09d';
+// const BASE_ID_2 = 'appYqSx4l5TlghInj';
+
+const AIRTABLE_API_KEY_2 = 'patMPLSJ1NXS9skXe.72c023ccf1da6a5a6d7e10e85dc38910c23bf23709aa09746794df625cb10952';
+const BASE_ID_2 = 'apphw7rTx5kMq9zQR';
 
 // Setup Airtable bases
 const dataBase = new Airtable({ apiKey: AIRTABLE_API_KEY_1 }).base(BASE_ID_1);
