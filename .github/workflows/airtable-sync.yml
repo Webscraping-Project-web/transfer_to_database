@@ -3,8 +3,8 @@ name: Airtable Sync
 on:
   schedule:
     # Runs the script on 28th at 9:00 AM UTC
-    # - cron: '0 9 28 * *'
-    - cron: '15 18 7 11 *' 
+    - cron: '0 9 28 * *'
+    # - cron: '15 18 7 11 *' 
   workflow_dispatch: # Allows manual triggering.
 
 jobs:
